@@ -4,6 +4,7 @@ import static antlr.Utils.error;
 import com.sd4.model.Brewery;
 import com.sd4.model.Beer;
 import com.sd4.service.BeerService;
+import com.sd4.service.BreweriesService;
 import java.util.Collections;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import static org.aspectj.bridge.MessageUtil.error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,18 +27,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
 @Validated 
+@RequestMapping("/beers")
 public class BeerController {
 
     @Autowired
     private BeerService BeerService;
     //method to load the add beer form. This method also creates a Beer object that will back the add beer form    
     
+     @Autowired
+     private BreweriesService Brewerieservice;
    
  @GetMapping("addBeer")
 
@@ -59,14 +65,25 @@ public class BeerController {
         
     }
  
-    
-    @GetMapping("/beers")
-    public List<Beer> getAll() {
-        return BeerService.findAll();
+    //     produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+
+    @GetMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public ResponseEntity<List<Beer>> getAll() {
+        List<Beer> alist = BeerService.findAll();
+       
+        if(alist.isEmpty()){
         
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        
+        else 
+            
+        return ResponseEntity.ok(alist);
+        }
+            
     }
     
-    @GetMapping("/beers/{id}")
+    @GetMapping(value = "/beers/id" ,produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Beer> getOne(@PathVariable long id) {
        Optional<Beer> o =  BeerService.findOne(id);
        
@@ -76,27 +93,57 @@ public class BeerController {
             return ResponseEntity.ok(o.get());
     }
     
-    @GetMapping("/beers/count")
+    @GetMapping(value = "/beers/count", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public long getCount() {
         return BeerService.count();
     }
     
-    @DeleteMapping("/beers/{id}")
+    @DeleteMapping(value = "/beers/{id}", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity delete(@PathVariable long id) {
         BeerService.deleteByID(id);
         return new ResponseEntity(HttpStatus.OK);
     }
     
-    @PostMapping("/beers/")
+    @PostMapping(value = "/beers/", consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity add(@RequestBody Beer a) {
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
-    @PutMapping("/beers/")
+    @PutMapping(value = "/beers/", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity edit(@RequestBody Beer a) { //the edit method should check if the Beer object is already in the DB before attempting to save it.
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.OK);
     }
-
+    
+    
+    /////////////////////////////////////////////////////////////////////
+    @GetMapping(value = "/beers/drill", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity drill(@RequestBody Beer a) { 
+        BeerService.drillBeer(a);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/beers/map", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity map(@RequestBody Beer a) { 
+        BeerService.mapBeer(a);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/beers/pdf", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity pdf (@RequestBody Beer a) { 
+        BeerService.pdfBeer(a);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/beers/qr", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity qr (@RequestBody Beer a) { 
+        BeerService.qrBeer(a);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    @GetMapping(value = "/beers/zip", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity zip(@RequestBody Beer a) { 
+        BeerService.zipBeer(a);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
