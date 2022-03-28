@@ -1,10 +1,9 @@
-package com.SD4.Controller;
+package com.sd4.Controller;
 
 import static antlr.Utils.error;
 import com.sd4.model.Brewery;
 import com.sd4.model.Beer;
 import com.sd4.service.BeerService;
-import com.sd4.service.BreweriesService;
 import java.util.Collections;
 
 import java.util.List;

@@ -14,7 +14,6 @@ public class AssignmentTwo2022Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AssignmentTwo2022Application.class, args);
-                
 	}
 
 }

@@ -9,6 +9,6 @@ package com.sd4.service;
  *
  * @author Jordan
  */
-public class BreweriesService {
+public class Breweries_GeocodeRepository {
     
 }
