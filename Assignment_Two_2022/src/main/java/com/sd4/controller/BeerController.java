@@ -4,6 +4,7 @@ import static antlr.Utils.error;
 import com.sd4.model.Brewery;
 import com.sd4.model.Beer;
 import com.sd4.service.BeerService;
+import com.sd4.service.BreweryService;
 import java.util.Collections;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class BeerController {
     //method to load the add beer form. This method also creates a Beer object that will back the add beer form    
     
      @Autowired
-     private BreweriesService Brewerieservice;
+      private BreweryService Brewerieservice;
    
  @GetMapping("addBeer")
 

@@ -6,6 +6,7 @@
 package com.sd4.repository;
 
 import com.sd4.model.Beer;
+import com.sd4.model.Brewery;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -13,5 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  * @author Jordan
  */
 public interface BreweryRepository extends CrudRepository<Beer, Long>{
+
+    public void save(Brewery a);
     
 }
