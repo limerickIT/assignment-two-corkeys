@@ -9,6 +9,7 @@ import java.util.Collections;
 
 import java.util.List;
 import java.util.Optional;
+import static org.apache.coyote.http11.Constants.a;
 import static org.aspectj.bridge.MessageUtil.error;
 import static org.aspectj.bridge.MessageUtil.error;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class BeerController {
  
     //     produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 
-    @GetMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/hateoas/getall",produces = MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity<List<Beer>> getAll() {
         List<Beer> alist = BeerService.findAll();
@@ -76,21 +77,23 @@ public class BeerController {
         
         return new ResponseEntity(HttpStatus.NOT_FOUND);
         
-        else 
-            
+        }else{
+       // Link selfLink = linkTo(methodOn(BeerController.class).getOne(Beer)).withselfRel();    
+       // a.get().add(selfLink);
         return ResponseEntity.ok(alist);
+             }
         }
             
-    }
-    
+        
     @GetMapping(value = "/beers/id" ,produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Beer> getOne(@PathVariable long id) {
        Optional<Beer> o =  BeerService.findOne(id);
        
-       if (!o.isPresent()) 
+       if (!o.isPresent()){ 
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-         else 
+            }else{ 
             return ResponseEntity.ok(o.get());
+       }
     }
     
     @GetMapping(value = "/beers/count", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
@@ -118,32 +121,32 @@ public class BeerController {
     
     
     /////////////////////////////////////////////////////////////////////
-    @GetMapping(value = "/beers/drill", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity drill(@RequestBody Beer a) { 
-        BeerService.drillBeer(a);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/beers/map", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity map(@RequestBody Beer a) { 
-        BeerService.mapBeer(a);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/beers/pdf", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity pdf (@RequestBody Beer a) { 
-        BeerService.pdfBeer(a);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/beers/qr", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity qr (@RequestBody Beer a) { 
-        BeerService.qrBeer(a);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    @GetMapping(value = "/beers/zip", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity zip(@RequestBody Beer a) { 
-        BeerService.zipBeer(a);
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @GetMapping(value = "/beers/drill", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity drill(@RequestBody Beer a) { 
+//        BeerService.drillBeer(a);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//    
+//    @GetMapping(value = "/beers/map", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity map(@RequestBody Beer a) { 
+//        BeerService.mapBeer(a);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//    
+//    @GetMapping(value = "/beers/pdf", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity pdf (@RequestBody Beer a) { 
+//        BeerService.pdfBeer(a);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//    
+//    @GetMapping(value = "/beers/qr", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity qr (@RequestBody Beer a) { 
+//        BeerService.qrBeer(a);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//    @GetMapping(value = "/beers/zip", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity zip(@RequestBody Beer a) { 
+//        BeerService.zipBeer(a);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 }

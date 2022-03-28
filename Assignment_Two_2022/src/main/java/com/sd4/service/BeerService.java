@@ -43,24 +43,24 @@ public class BeerService {
         beerRepo.save(a);
     }  
 
-    public void mapBeer(Beer a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void drillBeer(Beer a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void zipBeer(Beer a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void qrBeer(Beer a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void pdfBeer(Beer a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    public void mapBeer(Beer a) {
+//        beerRepo.ShowMap(a);
+//    }
+//
+//    public void drillBeer(Beer a) {
+//        beerRepo.drillDown(a);
+//    }
+//
+//    public void zipBeer(Beer a) {
+//        beerRepo.zipFolder(a);
+//    }
+//
+//    public void qrBeer(Beer a) {
+//        beerRepo.getQR(a);
+//    }
+//
+//    public void pdfBeer(Beer a) {
+//        beerRepo.pdfBeer(a);
+//    }
     
 }//end class
