@@ -21,7 +21,6 @@ import lombok.ToString;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -40,7 +39,7 @@ public class Beer implements Serializable   {
     @GeneratedValue(strategy = GenerationType.AUTO)    
     private long brewery_id;
     
-    @NotBlank(message = "{beer.nameNotEmpty}")    
+   
     private String name;
     
     @Id
@@ -49,20 +48,15 @@ public class Beer implements Serializable   {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer style_id;
-    
-    @NotBlank(message = "{beer.abvNotEmpty}")
-    private Double abv;
-  
-    @NotBlank(message = "{beer.ibuNotEmpty}")
-    private Double ibu;
+    private Integer style_id;    
    
-    @NotBlank(message = "{beer.srmNotEmpty}")
-    private Double srm;
-  
+    private Double abv;  
+ 
+    private Double ibu;   
     
-    @Lob 
-    @NotBlank(message = "{beer.descriptionNotEmpty}")
+    private Double srm;  
+    
+    @Lob    
     private String description;  
 
     private Integer add_user;
@@ -70,12 +64,9 @@ public class Beer implements Serializable   {
     @Temporal(TemporalType.TIMESTAMP)
     private Date last_mod;
 
-    private String image;
+    private String image;    
     
-    @NotNull(message = "{beer.buyNotNull}")
     private Double buy_price;
-    
-    @NotNull(message = "{beer.sellNotNull}")
+        
     private Double sell_price;
-
 }

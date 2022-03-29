@@ -45,7 +45,7 @@ public class BeerController {
      @Autowired
       private BreweryService Brewerieservice;
    
- @GetMapping("addBeer")
+
 
 //public ModelAndView displayAddForm() {
 //
@@ -55,6 +55,7 @@ public class BeerController {
 
 //method to save the beer entity to the DB    
 //decide on mapping etc..
+ @GetMapping("addBeer")
  public ModelAndView addABeer(@ModelAttribute("aBeer") Beer b, BindingResult result) {
                 
 //        if (result.hasErrors()) {
