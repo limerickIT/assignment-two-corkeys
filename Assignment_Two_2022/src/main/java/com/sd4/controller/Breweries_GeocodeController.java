@@ -5,10 +5,13 @@
  */
 package com.sd4.controller;
 
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  *
  * @author Jordan
  */
+@RestController
 public class Breweries_GeocodeController {
     
 }

@@ -51,14 +51,15 @@ public class Beer implements Serializable   {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer style_id;
     
-    private Double abv;
     @NotBlank(message = "{beer.abvNotEmpty}")
-    
-    private Double ibu;
+    private Double abv;
+  
     @NotBlank(message = "{beer.ibuNotEmpty}")
-    
-    private Double srm;
+    private Double ibu;
+   
     @NotBlank(message = "{beer.srmNotEmpty}")
+    private Double srm;
+  
     
     @Lob 
     @NotBlank(message = "{beer.descriptionNotEmpty}")
