@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author Jordan
  */
 @Repository
-public interface BreweryRepository extends CrudRepository<Beer, Long>{
+public interface BreweryRepository extends CrudRepository< Brewery,Long>{
 
-    public void save(Brewery a);
+   
     
 }
