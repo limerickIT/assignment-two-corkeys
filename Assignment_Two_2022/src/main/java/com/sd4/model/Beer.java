@@ -35,19 +35,19 @@ public class Beer implements Serializable   {
     
     private long id;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)    
     private long brewery_id;
     
    
     private String name;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cat_id;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer style_id;    
    
     private Double abv;  

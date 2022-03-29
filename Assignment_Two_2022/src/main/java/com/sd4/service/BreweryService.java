@@ -29,7 +29,7 @@ public class BreweryService {
     @Autowired
     private BreweryRepository breweryRepo;
 
-    public Optional<Beer> findOne(Long id) {
+    public Optional<Brewery> findOne(Long id) {
         return breweryRepo.findById(id);
     }
 
