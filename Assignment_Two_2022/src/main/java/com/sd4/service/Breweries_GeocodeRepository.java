@@ -10,11 +10,13 @@ import com.sd4.model.Breweries_Geocode;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Jordan
  */
+@Service
 public class Breweries_GeocodeRepository {
     
     @Autowired

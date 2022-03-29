@@ -8,11 +8,13 @@ package com.sd4.repository;
 import com.sd4.model.Beer;
 import com.sd4.model.Breweries_Geocode;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Jordan
  */
+@Repository
 public interface Breweries_GeocodeRepository extends CrudRepository<Beer, Long>{
 
     public void save(Breweries_Geocode a);

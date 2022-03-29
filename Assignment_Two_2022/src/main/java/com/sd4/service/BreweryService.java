@@ -13,11 +13,13 @@ import com.sd4.repository.BreweryRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Jordan
  */
+@Service
 public class BreweryService {
     
     @Autowired
