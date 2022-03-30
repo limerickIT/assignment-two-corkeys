@@ -74,8 +74,7 @@ public class BeerController {
 ////    public List<Beer> getAll() {
 ////        return BeerService.findAll();
 ////        
-////    }
-     
+////    }     
     @GetMapping(value = "/hateoas/getall",produces = {MediaType.APPLICATION_JSON_VALUE})
 
     public ResponseEntity<List<Beer>> getAll() {
