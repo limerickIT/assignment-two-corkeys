@@ -7,6 +7,7 @@ import com.sd4.service.BreweryService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +64,7 @@ public class BeerController {
 ////        return BeerService.findAll();
 ////        
 ////    }     
-    @GetMapping(value = "/hateoas/getall",produces =MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/hateoas/getall",produces =MediaTypes.HAL_JSON_VALUE)
 
     public ResponseEntity<List<Beer>> getAll() {
         List<Beer> alist = BeerService.findAll();
@@ -79,7 +80,7 @@ public class BeerController {
              }
         }
 
-    @GetMapping(value = "/beers/{id}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/beers/{id}" ,produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<Beer> getOne(@PathVariable long id) {
        Optional<Beer> o =  BeerService.findOne(id);
        
@@ -90,24 +91,24 @@ public class BeerController {
        }
     }
     
-    @GetMapping(value = "/beers/count", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/beers/count", produces = MediaTypes.HAL_JSON_VALUE)
     public long getCount() {
         return BeerService.count();
     }
     
-    @DeleteMapping(value = "/beers/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = "/beers/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity delete(@PathVariable long id) {
         BeerService.deleteByID(id);
         return new ResponseEntity(HttpStatus.OK);
     }
     
-    @PostMapping(value = "/beers/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/beers/add", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity add(@RequestBody Beer a) {
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
-    @PutMapping(value = "/beers/edit", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/beers/edit", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity edit(@RequestBody Beer a) { //the edit method should check if the Beer object is already in the DB before attempting to save it.
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.OK);
