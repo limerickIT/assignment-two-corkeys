@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @Validated 
-@RequestMapping("/beers")
+@RequestMapping("")
 public class BeerController {
 
     @Autowired
@@ -55,21 +55,28 @@ public class BeerController {
 
 //method to save the beer entity to the DB    
 //decide on mapping etc..
- @GetMapping("addBeer")
- public ModelAndView addABeer(@ModelAttribute("aBeer") Beer b, BindingResult result) {
-                
-//        if (result.hasErrors()) {
-//          int x =Integer.parseInt("There has been a problem");
-//        }
-        //save the beer object to the DB
-        //display success page
-        return null;
-        
-    }
- 
-    //     produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-
-    @GetMapping(value = "/hateoas/getall",produces = MediaType.APPLICATION_JSON_VALUE)
+// @GetMapping("addBeer")
+// public ModelAndView addABeer(@ModelAttribute("aBeer") Beer b, BindingResult result) {
+//                
+////        if (result.hasErrors()) {
+////          int x =Integer.parseInt("There has been a problem");
+////        }
+//        //save the beer object to the DB
+//        //display success page
+//        return null;
+//        
+//    }
+// 
+//    //     produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+//
+//     
+////    @GetMapping("/beers")
+////    public List<Beer> getAll() {
+////        return BeerService.findAll();
+////        
+////    }
+     
+    @GetMapping(value = "/hateoas/getall",produces = {MediaType.APPLICATION_JSON_VALUE})
 
     public ResponseEntity<List<Beer>> getAll() {
         List<Beer> alist = BeerService.findAll();
@@ -84,9 +91,8 @@ public class BeerController {
         return ResponseEntity.ok(alist);
              }
         }
-            
-        
-    @GetMapping(value = "/beers/id" ,produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+
+    @GetMapping(value = "/beers/{id}" ,produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Beer> getOne(@PathVariable long id) {
        Optional<Beer> o =  BeerService.findOne(id);
        
@@ -97,24 +103,24 @@ public class BeerController {
        }
     }
     
-    @GetMapping(value = "/beers/count", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/beers/count", produces = {MediaType.APPLICATION_JSON_VALUE})
     public long getCount() {
         return BeerService.count();
     }
     
-    @DeleteMapping(value = "/beers/{id}", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = "/beers/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity delete(@PathVariable long id) {
         BeerService.deleteByID(id);
         return new ResponseEntity(HttpStatus.OK);
     }
     
-    @PostMapping(value = "/beers/", consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/beers/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity add(@RequestBody Beer a) {
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
-    @PutMapping(value = "/beers/", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/beers/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity edit(@RequestBody Beer a) { //the edit method should check if the Beer object is already in the DB before attempting to save it.
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.OK);

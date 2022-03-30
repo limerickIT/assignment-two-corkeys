@@ -17,10 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -34,20 +32,13 @@ public class Beer implements Serializable   {
     @GeneratedValue(strategy = GenerationType.AUTO)
     
     private long id;
-    
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)    
+     
     private long brewery_id;
     
-   
     private String name;
     
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cat_id;
     
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer style_id;    
    
     private Double abv;  
