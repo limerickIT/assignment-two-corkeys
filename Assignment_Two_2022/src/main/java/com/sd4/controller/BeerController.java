@@ -3,12 +3,23 @@ package com.sd4.Controller;
 import com.sd4.model.Beer;
 import com.sd4.service.BeerService;
 import com.sd4.service.BreweryService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -35,47 +46,18 @@ public class BeerController {
 
     @Autowired
     private BeerService BeerService;
-    //method to load the add beer form. This method also creates a Beer object that will back the add beer form    
+      
     
      @Autowired
       private BreweryService Brewerieservice;
-   
-
-
-//public ModelAndView displayAddForm() {
-//
-//        return new ModelAndView("/addBeer", "aBeer", new Beer());
-//        
-//}
-
-//method to save the beer entity to the DB    
-//decide on mapping etc..
-// @GetMapping("addBeer")
-// public ModelAndView addABeer(@ModelAttribute("aBeer") Beer b, BindingResult result) {
-//                
-////        if (result.hasErrors()) {
-////          int x =Integer.parseInt("There has been a problem");
-////        }
-//        //save the beer object to the DB
-//        //display success page
-//        return null;
-//        
-//    }
-// 
-//    //     produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-//
-//     
-////    @GetMapping("/beers")
-////    public List<Beer> getAll() {
-////        return BeerService.findAll();
-////        
-////    }     
+ 
+     
     @GetMapping(value = "/hateoas/getall",produces =MediaTypes.HAL_JSON_VALUE)
    public ResponseEntity<CollectionModel<EntityModel<Beer>>> getAll() {
 
         List<EntityModel<Beer>> beers = StreamSupport.stream(BeerService.findAll().spliterator(), false).map(beer -> EntityModel.of(beer, 
         linkTo(methodOn(BeerController.class).getOne(beer.getId())).withSelfRel(), 
-        linkTo(methodOn(BeerController.class).getAll()).withRel("employees"))) 
+        linkTo(methodOn(BeerController.class).getAll()).withRel("beer"))) 
                 
                .collect(Collectors.toList()); 
                return ResponseEntity.ok( 
@@ -88,6 +70,7 @@ public class BeerController {
     public ResponseEntity<EntityModel<Beer>> getOne(@PathVariable long id) {
        Optional<Beer> o =  BeerService.findOne(id);
        return o
+               
                .map(beer -> EntityModel.of(beer, 
                linkTo(methodOn(BeerController.class).getOne(beer.getId())).withSelfRel(), 
                linkTo(methodOn(BeerController.class).getAll()).withRel("beers/"))) 
@@ -98,29 +81,71 @@ public class BeerController {
     
     @GetMapping(value = "/hateoas/count", produces = MediaTypes.HAL_JSON_VALUE)
     public long getCount() {
+        
         return BeerService.count();
     }
     
     @DeleteMapping(value = "/hateoas/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity delete(@PathVariable long id) {
+        
         BeerService.deleteByID(id);
         return new ResponseEntity(HttpStatus.OK);
     }
     
     @PostMapping(value = "/hateoas/add", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity add(@RequestBody Beer a) {
+        
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
     @PutMapping(value = "/hateoas/edit", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity edit(@RequestBody Beer a) { //the edit method should check if the Beer object is already in the DB before attempting to save it.
+    public ResponseEntity edit(@RequestBody Beer a) {
+        
         BeerService.saveBeer(a);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
-
     
+    @GetMapping(value = "/hateoas/zip", produces = "application/zip")
+    public void zipDownload(HttpServletResponse response) throws IOException {
+        
+        ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
+        Resource resource = new ClassPathResource("static/assets/images/");
+        
+        File fileToZip = resource.getFile();
+        zipFile(fileToZip, fileToZip.getName(), zos);
+        zos.close();
+    } 
 
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+        if (fileToZip.isHidden()) {
+            return;
+        }
+        if (fileToZip.isDirectory()) {
+            if (fileName.endsWith("/")) {
+                zipOut.putNextEntry(new ZipEntry(fileName));
+                zipOut.closeEntry();
+            } else {
+                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                zipOut.closeEntry();
+            }
+            File[] nextfile = fileToZip.listFiles();
+            for (File newFile : nextfile) {
+            zipFile(newFile, fileName + "/" + newFile.getName(), zipOut);
+            }
+            return;
+        }
+        
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileName);
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+        zipOut.write(bytes, 0, length);
+        }
+        
+        fis.close();
+    }  
+  
 }

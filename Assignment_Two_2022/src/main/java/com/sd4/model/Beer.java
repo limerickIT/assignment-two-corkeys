@@ -19,6 +19,7 @@ import lombok.Setter;
 import lombok.ToString;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import org.springframework.hateoas.Link;
 
 @Getter
 @Setter
@@ -60,4 +61,8 @@ public class Beer implements Serializable   {
     private Double buy_price;
         
     private Double sell_price;
+
+    public void add(Link selfLink) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -14,12 +14,14 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,17 +29,31 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Jordan
  */
 @RestController
+@Validated 
+@RequestMapping("")
 public class BreweryController {
        @Autowired
     private BreweryService BreweryService;
-    //method to load the add brewery form. This method also creates a Brewery object that will back the add brewery form    
-    
+       
      @Autowired
-      private BreweryService Brewerieservice;
-   
+      private BreweryService Brewerieservice;   
 
   
-    @GetMapping(value = "/hateoas/getallbrewery",produces = MediaTypes.HAL_JSON_VALUE)
+//    @GetMapping(value = "/allbrewery",produces = MediaTypes.HAL_JSON_VALUE)
+//
+//    public ResponseEntity<List<Brewery>> getAll() {
+//        List<Brewery> alist = BreweryService.findAll();
+//       
+//        if(alist.isEmpty()){
+//        
+//        return new ResponseEntity(HttpStatus.NOT_FOUND);
+//        
+//        }else{
+//         return ResponseEntity.ok(alist);
+//             }
+//        }
+
+    @GetMapping(value = "/hateoas/getallbrewery",produces =MediaTypes.HAL_JSON_VALUE)
 
     public ResponseEntity<List<Brewery>> getAll() {
         List<Brewery> alist = BreweryService.findAll();
@@ -47,11 +63,12 @@ public class BreweryController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
         
         }else{
-      // Link selfLink = linkTo(methodOn(BreweryController.class).getOne(Brewery)).withselfRel();    
-        //a.get().add(selfLink);
+  
         return ResponseEntity.ok(alist);
              }
         }
+        
+        
 
     @GetMapping(value = "/brewerys/{id}" ,produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<Brewery> getOne(@PathVariable long id) {
