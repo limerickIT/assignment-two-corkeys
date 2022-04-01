@@ -54,7 +54,6 @@ public class BreweryController {
 //        }
 
     @GetMapping(value = "/hateoas/getallbrewery",produces =MediaTypes.HAL_JSON_VALUE)
-
     public ResponseEntity<List<Brewery>> getAll() {
         List<Brewery> alist = BreweryService.findAll();
        
